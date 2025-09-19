@@ -1,0 +1,311 @@
+/* Gem Cards Section Styles - Cards  move */
+.gems-cards-section {
+  padding: 0rem 1rem 2rem 1rem; /* Top padding 0.5rem  0rem - Cards  */
+  background: #f8f9fa;
+}
+
+.cards-wrapper {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 1rem 0.5rem;
+  scroll-behavior: smooth;
+  
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #c4b5fd #f1f5f9;
+}
+
+.cards-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.cards-wrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.cards-wrapper::-webkit-scrollbar-thumb {
+  background: #c4b5fd;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.cards-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #a78bfa;
+}
+
+/* Individual Gem Card */
+.gem-card {
+  flex: 0 0 auto; /* Prevent flex shrinking */
+  width: 280px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.gem-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Image Section */
+.gem-card-img {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gem-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gem-card:hover .gem-card-img img {
+  transform: scale(1.1);
+}
+
+/* Card Body - Paddinggap reduce  */
+.gem-card-body {
+  padding: 1rem; /* 1.5rem  1rem - Overall padding  */
+}
+
+/* Name and Type together on same line with proper alignment */
+.gem-name-type {
+  display: flex;
+  align-items: baseline; /* Changed from center to baseline for proper text alignment */
+  gap: 0.5rem; /* Space between name and type */
+  margin-bottom: 0.4rem;
+}
+
+.gem-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0; /* Remove bottom margin since it's in parent div */
+  line-height: 1.2;
+}
+
+.gem-type {
+  font-size: 0.75rem;
+  color: #718096;
+  margin-bottom: 0; /* Remove bottom margin */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  line-height: 1.2; /* Match line height with name for consistent baseline */
+}
+
+/* Dash separator between name and type */
+.gem-name::after {
+  content: " - ";
+  color: #718096;
+  font-weight: 400;
+}
+
+.gem-weight {
+  font-size: 0.9rem;
+  color: #4a5568;
+  margin-bottom: 0.6rem; /* 1rem 0.6rem - Weight  gap */
+  font-weight: 500;
+  text-align: right; /* Weight right align  */
+}
+
+/* Price Section - Center alignment  */
+.gem-prices {
+  display: flex;
+  justify-content: center; /* Center alignment  */
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.original-price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #e53e3e;
+  text-decoration: line-through;
+}
+
+.cut-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #38a169;
+  position: relative;
+}
+
+.cut-price::before {
+  content: "₹";
+  margin-right: 2px;
+}
+
+/* Tablet View (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .gem-card {
+    width: 240px;
+  }
+  
+  .gem-card-img {
+    height: 180px;
+  }
+  
+  .gem-card-body {
+    padding: 0.75rem; /* 1.25rem  0.75rem - Tablet  padding  */
+  }
+  
+  .gem-name {
+    font-size: 1.1rem;
+  }
+  
+  .gem-type {
+    font-size: 0.7rem; /* Smaller type size for tablet */
+    line-height: 1.2; /* Consistent line height */
+  }
+  
+  .gem-name::after {
+    content: " - ";
+    color: #718096;
+    font-weight: 400;
+  }
+}
+
+/* Mobile View (768px and below) - Mobile  cards */
+@media (max-width: 768px) {
+  .gems-cards-section {
+    padding: 0rem 0.75rem 1.5rem 0.75rem; /* Top padding 0.25rem  0rem */
+  }
+  
+  .cards-wrapper {
+    gap: 1rem;
+    padding: 0.75rem 0.25rem;
+  }
+  
+  .gem-card {
+    width: 220px;
+  }
+  
+  .gem-card-img {
+    height: 160px;
+  }
+  
+  .gem-card-body {
+    padding: 0.75rem; /* 1rem 0.75rem - Mobile  padding  */
+  }
+  
+  .gem-name {
+    font-size: 1rem;
+    margin-bottom: 0; /* Mobile  margin 0 */
+  }
+  
+  .gem-type {
+    font-size: 0.65rem; /* Mobile type size  */
+    margin-bottom: 0; /* Mobile  margin 0 */
+  }
+  
+  .gem-weight {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem; /* 0.8rem  0.5rem - Mobile  weight gap  */
+  }
+  
+  .original-price {
+    font-size: 1rem;
+  }
+  
+  .cut-price {
+    font-size: 1.1rem;
+  }
+}
+
+/* Small Mobile View (480px and below) */
+@media (max-width: 480px) {
+  .gems-cards-section {
+    padding: 0rem 0.5rem 1rem 0.5rem;
+  }
+  
+  .cards-wrapper {
+    gap: 0.8rem;
+  }
+  
+  .gem-card {
+    width: 180px;
+  }
+  
+  .gem-card-img {
+    height: 140px;
+  }
+  
+  .gem-card-body {
+    padding: 0.6rem; /* 0.875rem  0.6rem - Small mobile  padding */
+  }
+  
+  .gem-name {
+    font-size: 0.95rem;
+  }
+  
+  .gem-type {
+    font-size: 0.75rem;
+  }
+  
+  .gem-weight {
+    font-size: 0.8rem;
+  }
+  
+  .gem-prices {
+    gap: 0.5rem;
+  }
+  
+  .original-price {
+    font-size: 0.9rem;
+  }
+  
+  .cut-price {
+    font-size: 1rem;
+  }
+}
+
+/* Extra Small Mobile (360px and below) */
+@media (max-width: 360px) {
+  .gem-card {
+    width: 160px;
+  }
+  
+  .gem-card-img {
+    height: 120px;
+  }
+  
+  .gem-card-body {
+    padding: 0.5rem; /* 0.75rem 0.5rem - Extra small mobile  minimum padding */
+  }
+  
+  .gem-name {
+    font-size: 0.9rem;
+  }
+}
+
+/* Smooth scroll indicators */
+.cards-wrapper::before,
+.cards-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cards-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, #f8f9fa, transparent);
+}
+
+.cards-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, #f8f9fa, transparent);
+}

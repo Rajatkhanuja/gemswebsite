@@ -1,0 +1,156 @@
+/* Navbar Styles */
+.navbar {
+   background-color: #FFD700; /* Bright Yellow */
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+   height: 70px; /* Fixed professional height */
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 0 2rem; /* This affects menu only */
+   position: sticky;
+   top: 0;
+   z-index: 1000;
+}
+
+/* Logo */
+.navbar-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: -40px; /* Remove extra space */
+}
+
+.logo {
+  max-height: 90px; /* Keep logo big */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Desktop Menu */
+.desktop-menu {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  height: 100%;
+}
+
+/* Menu Links */
+.navbar-link {
+  text-decoration: none;
+  color: #FF0000;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navbar-link:hover {
+  color: #B22222;
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #FF0000;
+  transition: width 0.3s ease;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #FF0000;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #FFD700;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  padding: 0.5rem 0;
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.mobile-menu-open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-link {
+  text-decoration: none;
+  color: #FF0000;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+}
+
+.mobile-link:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+
+  .navbar-logo .logo {
+    max-height: 90px; /* Keep big logo */
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    max-height: 85px;
+  }
+
+  .mobile-link {
+    font-size: 0.95rem;
+    padding: 0.45rem 0;
+  }
+
+  .mobile-menu-btn svg {
+    width: 25px;
+    height: 25px;
+  }
+}
