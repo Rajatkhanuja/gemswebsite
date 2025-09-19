@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // ✅ added
 import Navbar from "../components/Navbar";
 
 const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // ✅ added
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -114,7 +116,13 @@ const Services = () => {
                   <p>{service.description}</p>
                   <div className="service-actions">
                     <button className="btn-primary">Book Now</button>
-                    <button className="btn-secondary">Learn More</button>
+                    {/* ✅ Navigate to service detail page */}
+                    <button 
+                      className="btn-secondary" 
+                      onClick={() => navigate(`/services/${service._id}`)}
+                    >
+                      Learn More
+                    </button>
                   </div>
                 </div>
               </div>

@@ -8,6 +8,7 @@ import Shop from "./pages/Shop";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import GemDetail from "./pages/GemDetail";
+import ServiceDetail from "./pages/ServiceDetail";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/shop" element={<Shop />} />
            <Route path="/shop/:id" element={<GemDetail />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:id" element={<ServiceDetail />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>
