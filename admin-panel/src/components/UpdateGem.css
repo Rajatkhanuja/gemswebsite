@@ -1,0 +1,137 @@
+/* Page Container */
+.update-gem-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+  padding: 1rem;
+}
+
+/* Card */
+.update-gem-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  transition: transform 0.3s ease;
+}
+
+.update-gem-card:hover {
+  transform: translateY(-3px);
+}
+
+.update-gem-card h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4f46e5;
+  margin-bottom: 1.5rem;
+}
+
+/* Loading */
+.loading-text {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  color: #374151;
+}
+
+/* Notification */
+.notification {
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.notification.success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #16a34a;
+}
+
+.notification.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #dc2626;
+}
+
+/* Form */
+.update-gem-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.update-gem-form input,
+.update-gem-form textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.update-gem-form input:focus,
+.update-gem-form textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.update-gem-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Image Uploads */
+.image-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.file-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+/* Button */
+.update-gem-form button {
+  background: #4f46e5;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.update-gem-form button:hover {
+  background: #4338ca;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .update-gem-card {
+    padding: 1.5rem;
+  }
+
+  .update-gem-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+}
