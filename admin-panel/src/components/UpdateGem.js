@@ -25,12 +25,14 @@ const UpdateGem = () => {
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   // ✅ Fetch existing gem
   useEffect(() => {
     const fetchGem = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(`http://localhost:5000/api/gems/${id}`, {
+        const res = await axios.get(`${API_BASE_URL}/api/gems/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -82,7 +84,7 @@ const UpdateGem = () => {
         }
       });
 
-      await axios.patch(`http://localhost:5000/api/gems/${id}`, data, {
+      await axios.patch(`${API_BASE_URL}/api/gems/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

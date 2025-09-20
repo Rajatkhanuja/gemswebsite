@@ -16,12 +16,14 @@ const ContactInfo = () => {
     window.location.href = "/admin/login";
   };
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   // Fetch contacts
   useEffect(() => {
     const fetchContacts = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/contact/all", {
+        const res = await axios.get(`${API_BASE_URL}/api/contact/all`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setContacts(res.data);
@@ -39,7 +41,7 @@ const ContactInfo = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/contact/contact/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/contact/contact/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setContacts(contacts.filter((c) => c._id !== id));

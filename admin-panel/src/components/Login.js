@@ -9,12 +9,14 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate(); // 👈 hook for navigation
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/admin/login", {
+      const res = await axios.post(`${API_BASE_URL}/api/admin/login`, {
         username,
         password,
       });

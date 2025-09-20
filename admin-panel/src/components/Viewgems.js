@@ -9,6 +9,8 @@ const ViewGems = () => {
   const [notification, setNotification] = useState({ show: false, type: "", message: "" });
   const [expandedRow, setExpandedRow] = useState(null);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const showNotification = (type, message) => {
@@ -24,7 +26,7 @@ const ViewGems = () => {
   const fetchGems = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/gems", {
+      const res = await axios.get(`${API_BASE_URL}/api/gems`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGems(res.data);
@@ -41,10 +43,9 @@ const ViewGems = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/gems/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/gems/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       showNotification("success", "✅ Gem deleted successfully!");

@@ -31,6 +31,8 @@ const Addgems = () => {
     setImages({ ...images, [e.target.name]: e.target.files[0] });
   };
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -42,7 +44,7 @@ const Addgems = () => {
 
       const token = localStorage.getItem("token");
 
-      const res = await axios.post("http://localhost:5000/api/gems", data, {
+      const res = await axios.post(`${API_BASE_URL}/api/gems`, data, {
         headers: { 
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`

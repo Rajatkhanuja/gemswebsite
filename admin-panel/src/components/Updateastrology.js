@@ -21,6 +21,8 @@ const UpdateAstrology = () => {
     window.location.href = "/admin/login";
   };
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   // handle input changes
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -43,8 +45,13 @@ const UpdateAstrology = () => {
         data.append("image", formData.image);
       }
 
-      await axios.post("http://localhost:5000/api/pujas", data, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const token = localStorage.getItem("token");
+
+      await axios.post(`${API_BASE_URL}/api/pujas`, data, {
+        headers: { 
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`
+        },
       });
 
       setSuccessMessage("Astrology Service Added Successfully ✅");

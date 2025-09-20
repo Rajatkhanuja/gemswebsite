@@ -8,6 +8,8 @@ const UpdateView = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   // Form state
   const [formData, setFormData] = useState({
     name: "",
@@ -27,7 +29,10 @@ const UpdateView = () => {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/pujas/${id}`);
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${API_BASE_URL}/api/pujas/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setFormData(res.data);
       } catch (err) {
         console.error("Error fetching service:", err);
@@ -47,22 +52,27 @@ const UpdateView = () => {
   // Update service silently
   const handleUpdate = async () => {
     try {
+      const token = localStorage.getItem("token");
       const data = new FormData();
       data.append("name", formData.name);
       data.append("description", formData.description);
       if (selectedFile) data.append("image", selectedFile);
 
-      await axios.patch(`http://localhost:5000/api/pujas/${id}`, data, {
-        headers: { "Content-Type": "multipart/form-data" },
+      await axios.patch(`${API_BASE_URL}/api/pujas/${id}`, data, {
+        headers: { 
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`
+        },
       });
 
-      // Remove the alert; navigate silently
+      // Navigate silently
       navigate("/admin/view-astrology");
     } catch (err) {
       console.error("Error updating service:", err);
       // optional: you can show error message in UI instead of alert
     }
   };
+
 
   return (
     <div className="update-container">

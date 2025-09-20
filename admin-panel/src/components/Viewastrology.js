@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo.png";
@@ -8,6 +8,8 @@ const ViewAstrology = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -22,7 +24,10 @@ const ViewAstrology = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/pujas");
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${API_BASE_URL}/api/pujas`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setServices(res.data);
       } catch (err) {
         console.error("Error fetching services:", err);
@@ -32,16 +37,19 @@ const ViewAstrology = () => {
     };
     fetchServices();
   }, []);
-// ✅ Delete Service (No confirmation, direct delete)
-const handleDelete = async (id) => {
-  try {
-    await axios.delete(`http://localhost:5000/api/pujas/${id}`);
-    setServices(services.filter((service) => service._id !== id));
-  } catch (err) {
-    console.error("Error deleting service:", err);
-  }
-};
 
+  // ✅ Delete Service (No confirmation, direct delete)
+  const handleDelete = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${API_BASE_URL}/api/pujas/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setServices(services.filter((service) => service._id !== id));
+    } catch (err) {
+      console.error("Error deleting service:", err);
+    }
+  };
 
   // ✅ Update Service
   const handleUpdate = (id) => {
@@ -50,7 +58,7 @@ const handleDelete = async (id) => {
 
   return (
     <div className="view-astrology-container">
-      {/* ✅ Navbar (Same as UpdateAstrology) */}
+      {/* ✅ Navbar */}
       <nav className="navbar">
         <div className="navbar-left">
           <img src={logo} alt="Logo" className="logo" />
@@ -135,7 +143,7 @@ const handleDelete = async (id) => {
                           src={
                             service.image?.includes("http")
                               ? service.image
-                              : `http://localhost:5000/uploads/${service.image}`
+                              : `${API_BASE_URL}/uploads/${service.image}`
                           }
                           alt={service.name}
                           className="service-image"
@@ -177,7 +185,7 @@ const handleDelete = async (id) => {
                           src={
                             service.image?.includes("http")
                               ? service.image
-                              : `http://localhost:5000/uploads/${service.image}`
+                              : `${API_BASE_URL}/uploads/${service.image}`
                           }
                           alt={service.name}
                           className="mobile-service-image"
