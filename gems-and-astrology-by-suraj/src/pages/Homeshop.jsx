@@ -1,11 +1,13 @@
 // src/pages/Homeshop.jsx
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Navigate import added
 import gemImg from "../assets/gemss.png"; // gemss.png image import
 import axios from "axios";
 import "./Homeshop.css"; // ✅ cards ka CSS alag file
 
 const Homeshop = () => {
   const [gems, setGems] = useState([]);
+  const navigate = useNavigate(); // ✅ Navigate hook added
 
   const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
@@ -31,11 +33,16 @@ const Homeshop = () => {
         </div>
       </section>
 
-      {/* Updated Cards Section JSX - Layout  */}
+      {/* Updated Cards Section JSX - Layout with Click Navigation */}
 <section className="gems-cards-section">
   <div className="cards-wrapper">
     {gems.slice(0, 6).map((gem) => (
-      <div className="gem-card" key={gem._id}>
+      <div 
+        className="gem-card" 
+        key={gem._id}
+        onClick={() => navigate(`/shop/${gem._id}`)} // ✅ Click navigation added
+        style={{ cursor: "pointer" }} // ✅ Pointer cursor added
+      >
         <div className="gem-card-img">
           <img
             src={gem.images?.image1 || gemImg}
@@ -110,6 +117,16 @@ const Homeshop = () => {
           to {
             transform: rotate(360deg);
           }
+        }
+
+        /* ✅ Added hover effect for cards */
+        .gem-card {
+          transition: all 0.3s ease;
+        }
+
+        .gem-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         /* Tablet Responsive */

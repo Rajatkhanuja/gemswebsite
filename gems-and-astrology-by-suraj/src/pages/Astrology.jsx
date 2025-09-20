@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Navigate import added
 import axios from "axios";
 import logo from "../assets/logo.png";
 
 const Astrology = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // ✅ Navigate hook added
 
   const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
+  // ✅ WhatsApp function added
+  const openWhatsApp = (serviceName) => {
+    const phoneNumber = "917568596521"; // 👈 apna WhatsApp number with country code
+    const message = `Hello, I want to book the service: ${serviceName}`;
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -53,6 +63,21 @@ const Astrology = () => {
             </div>
             <div className="right-section">
               <p className="service-description">{service.description}</p>
+              {/* ✅ Added action buttons */}
+              <div className="service-actions">
+                <button 
+                  className="btn-primary" 
+                  onClick={() => openWhatsApp(service.name)}
+                >
+                  Book Now
+                </button>
+                <button 
+                  className="btn-secondary" 
+                  onClick={() => navigate(`/services/${service._id}`)}
+                >
+                  Learn More
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -111,8 +136,10 @@ const Astrology = () => {
         .right-section {
           flex: 1;
           display: flex;
-          align-items: center;
+          flex-direction: column; /* ✅ Changed to column for proper layout */
+          justify-content: center;
           padding-left: 1rem;
+          gap: 1.5rem; /* ✅ Added gap between description and buttons */
         }
 
         .image-container {
@@ -150,6 +177,48 @@ const Astrology = () => {
           color: #555;
           line-height: 1.6;
           margin: 0;
+          flex: 1; /* ✅ Take available space */
+        }
+
+        /* ✅ Action buttons styling */
+        .service-actions {
+          display: flex;
+          gap: 1rem;
+          margin-top: auto; /* ✅ Push buttons to bottom */
+        }
+
+        .btn-primary, .btn-secondary {
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          border: none;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 1rem;
+          flex: 1;
+        }
+
+        .btn-primary {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+          background: transparent;
+          color: #667eea;
+          border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+          background: #667eea;
+          color: white;
+          transform: translateY(-2px);
         }
 
         /* Tablet responsive design */
@@ -194,6 +263,11 @@ const Astrology = () => {
           .right-section {
             padding-left: 0.5rem;
           }
+
+          .btn-primary, .btn-secondary {
+            padding: 0.65rem 1.25rem;
+            font-size: 0.95rem;
+          }
         }
 
         /* Mobile responsive design */
@@ -220,6 +294,10 @@ const Astrology = () => {
             width: 180px;
             height: 180px;
             margin: 0 auto 1rem auto;
+          }
+
+          .service-actions {
+            gap: 0.75rem;
           }
         }
 
@@ -252,6 +330,16 @@ const Astrology = () => {
 
           .service-description {
             font-size: 0.95rem;
+          }
+
+          .service-actions {
+            flex-direction: column;
+            gap: 0.5rem;
+          }
+
+          .btn-primary, .btn-secondary {
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
           }
         }
       `}</style>

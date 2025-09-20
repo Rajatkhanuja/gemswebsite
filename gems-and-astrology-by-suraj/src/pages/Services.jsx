@@ -23,6 +23,12 @@ const Services = () => {
     };
     fetchServices();
   }, []);
+    const openWhatsApp = (serviceName) => {
+    const phoneNumber = "917568596521"; // 👈 apna WhatsApp number with country code
+    const message = `Hello, I want to book the service: ${serviceName}`;
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
 
   const serviceCategories = [
     {
@@ -117,7 +123,12 @@ const Services = () => {
                   <h3>{service.name}</h3>
                   <p>{service.description}</p>
                   <div className="service-actions">
-                    <button className="btn-primary">Book Now</button>
+                    <button 
+                      className="btn-primary" 
+                      onClick={() => openWhatsApp(service.name)}
+                    >
+                      Book Now
+                    </button>
                     {/* ✅ Navigate to service detail page */}
                     <button 
                       className="btn-secondary" 

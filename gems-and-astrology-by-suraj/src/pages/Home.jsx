@@ -1,12 +1,26 @@
 // src/pages/Home.jsx
+import { useNavigate } from "react-router-dom";
 import Hero from "../components/Hero";
 import gemsImg from "../assets/gems.jpg";
 import astroImg from "../assets/astro.jpg";
-import Homeshop from "./Homeshop";   // 👈 Homeshop import
+import Homeshop from "./Homeshop";
 import Astrology from "./Astrology";
 import "./Home.css";
 
 export default function Home() {
+  const navigate = useNavigate(); // navigate hook
+
+  const goToShop = () => {
+    navigate("/shop"); // /shop route pe navigate
+  };
+
+  const openWhatsApp = () => {
+    const phoneNumber = "917568596521"; // 👈 apna WhatsApp number with country code
+    const message = "Hello, I want to book a consultation!";
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank"); // new tab me open karega
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -32,7 +46,9 @@ export default function Home() {
               <li>Expert consultation available</li>
               <li>Custom jewelry options</li>
             </ul>
-            <button className="cta-button">Explore Gems</button>
+            <button className="cta-button" onClick={goToShop}>
+              Explore Gems
+            </button>
           </div>
         </div>
 
@@ -51,7 +67,9 @@ export default function Home() {
               <li>Remedial solutions</li>
               <li>Future predictions</li>
             </ul>
-            <button className="cta-button">Book Consultation</button>
+            <button className="cta-button" onClick={openWhatsApp}>
+              Book Consultation
+            </button>
           </div>
           <div className="card-image">
             <img src={astroImg} alt="Professional Astrology Services" />
@@ -59,7 +77,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 👇 Ye add karo */}
+      {/* 👇 Add other sections */}
       <Homeshop />
       <Astrology />
     </>

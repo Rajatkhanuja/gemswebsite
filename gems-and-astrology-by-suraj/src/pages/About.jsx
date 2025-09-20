@@ -1,7 +1,20 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import AstImage from "../assets/Ast.png";
 
 const About = () => {
+  const navigate = useNavigate();
+
+  const openWhatsApp = () => {
+    const phoneNumber = "917568596521"; // include country code, e.g., 91XXXXXXXXXX
+    const message = encodeURIComponent("Hi Suraj, I want to book a consultation."); 
+    const url = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(url, "_blank"); // opens WhatsApp in new tab
+  };
+
+  const goToContact = () => {
+    navigate("/contact");
+  };
   return (
     <div className="about-container">
       {/* Hero Section */}
@@ -149,9 +162,12 @@ const About = () => {
               At <strong>Gems and Astrology by Suraj</strong>, our goal is simple—to help you find peace, positivity, and prosperity in life. Whether you are in India or abroad, we are here to guide you with trust, dedication, and the blessings of the divine.
             </p>
             <div className="cta-buttons">
-              <button className="btn-primary">Book Consultation</button>
-              <button className="btn-secondary">Contact Us</button>
-            </div>
+               <button className="btn-primary" onClick={openWhatsApp}>
+                Book Consultation
+              </button>
+              <button className="btn-secondary" onClick={goToContact}>
+                Contact Us
+              </button></div>
           </div>
         </div>
       </section>

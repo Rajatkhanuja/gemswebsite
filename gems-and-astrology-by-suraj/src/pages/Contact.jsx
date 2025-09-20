@@ -41,7 +41,7 @@ export default function Contact() {
       <div style={{ textAlign: "center", marginBottom: "2rem", lineHeight: "1.6" }}>
         <p><strong> Gems And Astrology By Suraj</strong></p>
         <p><strong>Address:</strong> Fatehnagar, Udaipur, Rajasthan 313205</p>
-        <p><strong>Email:</strong> suraj@example.com</p>
+        <p><strong>Email:</strong> Sparashar7568@gmail.com</p>
         <p><strong>Phone:</strong> +91 7568596521</p>
         <p><strong>Follow us:</strong></p>
         <a

@@ -19,7 +19,7 @@ export default function Hero() {
             <p className="hero-subtitle">
               Discover the mystical power of precious gemstones and unlock your cosmic destiny through ancient wisdom
             </p>
-            <a href="#services" className="hero-cta">
+            <a href="/About" className="hero-cta">
               <span className="sparkle-icon">💎</span>
               Explore Your Journey
             </a>

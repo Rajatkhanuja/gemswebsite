@@ -35,7 +35,7 @@ const Footer = () => {
           <h3>Get In Touch</h3>
           <p>
             <FaEnvelope /> 
-            info@gemsastrologysuraj.com
+            Sparashar7568@gmail.com
           </p>
           <p>
             <FaPhone /> 
@@ -43,7 +43,7 @@ const Footer = () => {
           </p>
           <p>
             <FaMapMarkerAlt /> 
-            Jaipur, Rajasthan, India
+            Fatehnagar, Udaipur, Rajasthan 313205 
           </p>
           
           <div className="social-icons">
