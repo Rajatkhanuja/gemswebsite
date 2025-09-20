@@ -1,4 +1,3 @@
-// server.js
 const express = require("express");
 const connectDB = require("./config/db");
 const adminRoutes = require("./routes/adminRoutes");
@@ -16,7 +15,12 @@ connectDB();
 // ✅ Enable CORS (includes PATCH)
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://gemswebsite.vercel.app",
+      "https://gemswebsite-re47.vercel.app"
+    ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
