@@ -6,12 +6,12 @@ const Astrology = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/pujas`
-        );
+        const res = await axios.get(`${API_BASE_URL}/api/pujas`);
         // Limit to first 3 services only
         setServices(res.data.slice(0, 3));
         setLoading(false);
@@ -41,7 +41,7 @@ const Astrology = () => {
       <h1>Our Astrology Services</h1>
 
       <div className="services-layout">
-        {services.map((service) => (
+        {services.map((service, index) => (
           <div key={service._id} className="service-card">
             <div className="left-section">
               {service.image && (
@@ -71,7 +71,7 @@ const Astrology = () => {
           font-size: 2.5rem;
           color: #2c3e50;
           font-weight: 700;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .services-layout {
@@ -86,9 +86,9 @@ const Astrology = () => {
           background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
           border-radius: 16px;
           padding: 1.5rem;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.1);
           transition: all 0.3s ease;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255,255,255,0.2);
           backdrop-filter: blur(10px);
           display: flex;
           align-items: flex-start;
@@ -98,7 +98,7 @@ const Astrology = () => {
 
         .service-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 16px 48px rgba(0,0,0,0.15);
         }
 
         .left-section {
@@ -152,57 +152,70 @@ const Astrology = () => {
           margin: 0;
         }
 
+        /* Tablet responsive design */
         @media (max-width: 768px) {
           .astrology-container {
             padding: 1rem 0.5rem;
             margin: 1rem auto;
           }
+
           h1 {
             font-size: 2rem;
             margin-bottom: 2rem;
           }
+
           .services-layout {
             gap: 1.5rem;
             max-width: 100%;
           }
+
           .service-card {
             padding: 1.25rem;
             gap: 1.5rem;
           }
+
           .left-section {
             flex: 0 0 200px;
           }
+
           .image-container {
             width: 160px;
             height: 160px;
           }
+
           .service-name {
             font-size: 1.25rem;
           }
+
           .service-description {
             font-size: 1rem;
           }
+
           .right-section {
             padding-left: 0.5rem;
           }
         }
 
+        /* Mobile responsive design */
         @media (max-width: 580px) {
           .service-card {
             flex-direction: column;
             text-align: center;
             gap: 1rem;
           }
+
           .left-section {
             flex: none;
             width: 100%;
           }
+
           .right-section {
             flex: none;
             width: 100%;
             padding-left: 0;
             text-align: center;
           }
+
           .image-container {
             width: 180px;
             height: 180px;
@@ -210,26 +223,33 @@ const Astrology = () => {
           }
         }
 
+        /* Small mobile devices */
         @media (max-width: 480px) {
           .astrology-container {
             padding: 0.5rem;
           }
+
           h1 {
             font-size: 1.8rem;
           }
+
           .services-layout {
             gap: 1.25rem;
           }
+
           .service-card {
             padding: 1rem;
           }
+
           .image-container {
             width: 160px;
             height: 160px;
           }
+
           .service-name {
             font-size: 1.15rem;
           }
+
           .service-description {
             font-size: 0.95rem;
           }
@@ -240,4 +260,3 @@ const Astrology = () => {
 };
 
 export default Astrology;
-

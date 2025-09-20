@@ -7,13 +7,15 @@ import axios from "axios";
 
 const Shop = () => {
   const [gems, setGems] = useState([]);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   // fetch gems from backend
   useEffect(() => {
     const fetchGems = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/gems");
+        const res = await axios.get(`${API_BASE_URL}/api/gems`);
         setGems(res.data);
       } catch (err) {
         console.error("Error fetching gems:", err);
@@ -21,7 +23,7 @@ const Shop = () => {
     };
     fetchGems();
   }, []);
-
+  
   return (
     <div>
       {/* Shop Section */}

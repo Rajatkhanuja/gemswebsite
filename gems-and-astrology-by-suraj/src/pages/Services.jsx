@@ -8,10 +8,12 @@ const Services = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // ✅ added
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/pujas");
+        const res = await axios.get(`${API_BASE_URL}/api/pujas`);
         setServices(res.data);
         setLoading(false);
       } catch (err) {

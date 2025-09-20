@@ -9,11 +9,13 @@ const ServiceDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   useEffect(() => {
     const fetchService = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:5000/api/pujas/${id}`);
+        const res = await axios.get(`${API_BASE_URL}/api/pujas/${id}`);
         setService(res.data);
         setError(null);
       } catch (err) {
@@ -32,6 +34,14 @@ const ServiceDetail = () => {
         <div className="loading-spinner">
           <p>Loading service details...</p>
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="service-detail-container">
+        <p className="error-message">{error}</p>
       </div>
     );
   }

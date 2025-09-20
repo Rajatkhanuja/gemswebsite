@@ -13,6 +13,8 @@ export default function Contact() {
   const whatsappNumber = "+917568596521"; // Apna number daalo
   const whatsappMessage = "Hello! I am interested in knowing which gemstones suit my zodiac sign. Can you guide me?";
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -22,7 +24,7 @@ export default function Contact() {
     setStatus("Submitting...");
 
     try {
-      await axios.post("http://localhost:5000/api/contact/submit", formData);
+      await axios.post(`${API_BASE_URL}/api/contact/submit`, formData);
       setStatus("Message sent successfully!");
       setFormData({ name: "", phoneNumber: "", message: "" });
     } catch (err) {

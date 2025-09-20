@@ -7,10 +7,12 @@ import "./Homeshop.css"; // ✅ cards ka CSS alag file
 const Homeshop = () => {
   const [gems, setGems] = useState([]);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   useEffect(() => {
     const fetchGems = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/gems");
+        const res = await axios.get(`${API_BASE_URL}/api/gems`);
         setGems(res.data);
       } catch (err) {
         console.error("Error fetching gems:", err);

@@ -11,10 +11,12 @@ const GemDetail = () => {
   const [gem, setGem] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
 
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   useEffect(() => {
     const fetchGem = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/gems/${id}`);
+        const res = await axios.get(`${API_BASE_URL}/api/gems/${id}`);
         setGem(res.data);
       } catch (err) {
         console.error("Error fetching gem:", err);
@@ -52,6 +54,7 @@ const GemDetail = () => {
   const handleCallUs = () => {
     window.open('tel:+919876543210', '_self');
   };
+
 
   return (
     <div>
