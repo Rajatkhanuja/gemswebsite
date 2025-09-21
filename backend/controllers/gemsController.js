@@ -1,19 +1,32 @@
 const Gem = require("../models/gemsModel");
 const mongoose = require("mongoose");
-const path = require("path");
-const fs = require("fs");
+const cloudinary = require("../config/cloudinary");
+
+// helper: upload buffer to cloudinary
+const uploadToCloudinary = (fileBuffer, folder) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result.secure_url);
+      }
+    );
+    stream.end(fileBuffer);
+  });
+};
 
 // Add Gem
 exports.addGem = async (req, res) => {
   try {
     const { name, type, originalPrice, cutPrice, weight, description } = req.body;
 
-    // Store images
     const images = {};
     if (req.files) {
-      Object.keys(req.files).forEach((key) => {
-        images[key] = req.files[key][0].filename; // only save filename
-      });
+      for (const key of Object.keys(req.files)) {
+        const file = req.files[key][0];
+        images[key] = await uploadToCloudinary(file.buffer, "gems");
+      }
     }
 
     const gem = new Gem({
@@ -38,20 +51,7 @@ exports.addGem = async (req, res) => {
 exports.getGems = async (req, res) => {
   try {
     const gems = await Gem.find().sort({ createdAt: -1 });
-
-    const formatted = gems.map((g) => {
-      const obj = g.toObject();
-      if (obj.images) {
-        Object.keys(obj.images).forEach((key) => {
-          if (obj.images[key]) {
-            obj.images[key] = `${req.protocol}://${req.get("host")}/uploads/${obj.images[key]}`;
-          }
-        });
-      }
-      return obj;
-    });
-
-    res.status(200).json(formatted);
+    res.status(200).json(gems);
   } catch (err) {
     console.error("Get gems error:", err);
     res.status(500).json({ message: err.message });
@@ -68,16 +68,7 @@ exports.getGemById = async (req, res) => {
     const gem = await Gem.findById(id);
     if (!gem) return res.status(404).json({ message: "Gem not found" });
 
-    const obj = gem.toObject();
-    if (obj.images) {
-      Object.keys(obj.images).forEach((key) => {
-        if (obj.images[key]) {
-          obj.images[key] = `${req.protocol}://${req.get("host")}/uploads/${obj.images[key]}`;
-        }
-      });
-    }
-
-    res.status(200).json(obj);
+    res.status(200).json(gem);
   } catch (err) {
     console.error("Get gem by ID error:", err);
     res.status(500).json({ message: err.message });
@@ -99,18 +90,12 @@ exports.updateGem = async (req, res) => {
       if (req.body[field] !== undefined) gem[field] = req.body[field];
     });
 
-    // Update images if uploaded
+    // Update images
     if (req.files) {
-      Object.keys(req.files).forEach((key) => {
-        // Delete old image if exists
-        if (gem.images && gem.images[key]) {
-          const oldPath = path.join(__dirname, "..", "uploads", gem.images[key]);
-          fs.unlink(oldPath, (err) => {
-            if (err) console.warn(`Failed to delete old ${key}:`, err.message);
-          });
-        }
-        gem.images[key] = req.files[key][0].filename;
-      });
+      for (const key of Object.keys(req.files)) {
+        const file = req.files[key][0];
+        gem.images[key] = await uploadToCloudinary(file.buffer, "gems");
+      }
     }
 
     const updatedGem = await gem.save();
@@ -121,23 +106,11 @@ exports.updateGem = async (req, res) => {
   }
 };
 
-// Delete Gem + remove local images safely
+// Delete Gem
 exports.deleteGem = async (req, res) => {
   try {
     const gem = await Gem.findById(req.params.id);
     if (!gem) return res.status(404).json({ message: "Gem not found" });
-
-    if (gem.images) {
-      Object.keys(gem.images).forEach((key) => {
-        const fileName = gem.images[key];
-        if (fileName) {
-          const filePath = path.join(__dirname, "..", "uploads", fileName);
-          fs.unlink(filePath, (err) => {
-            if (err) console.warn(`Failed to delete ${key}:`, err.message);
-          });
-        }
-      });
-    }
 
     await Gem.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "✅ Gem deleted successfully" });

@@ -1,12 +1,28 @@
 const Puja = require("../models/pujaModel");
-const path = require("path");
-const fs = require("fs");
+const cloudinary = require("../config/cloudinary");
+
+const uploadToCloudinary = (fileBuffer, folder) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result.secure_url);
+      }
+    );
+    stream.end(fileBuffer);
+  });
+};
 
 // Add Puja
 exports.addPuja = async (req, res) => {
   try {
     const { name, description } = req.body;
-    const image = req.file ? req.file.filename : null;
+    let image = null;
+
+    if (req.file) {
+      image = await uploadToCloudinary(req.file.buffer, "pujas");
+    }
 
     const puja = new Puja({ name, description, image });
     const saved = await puja.save();
@@ -22,29 +38,17 @@ exports.addPuja = async (req, res) => {
 exports.getAllPujas = async (req, res) => {
   try {
     const pujas = await Puja.find().sort({ createdAt: -1 }).lean();
-
-    const formatted = pujas.map((p) => ({
-      ...p,
-      image: p.image
-        ? `${req.protocol}://${req.get("host")}/uploads/${p.image}`
-        : null,
-    }));
-
-    res.json(formatted);
+    res.json(pujas);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Get Puja by ID
+// Get by ID
 exports.getPujaById = async (req, res) => {
   try {
     const puja = await Puja.findById(req.params.id);
     if (!puja) return res.status(404).json({ message: "Puja not found" });
-
-    if (puja.image)
-      puja.image = `${req.protocol}://${req.get("host")}/uploads/${puja.image}`;
-
     res.json(puja);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -62,12 +66,7 @@ exports.updatePuja = async (req, res) => {
     if (description) puja.description = description;
 
     if (req.file) {
-      // Remove old image
-      if (puja.image) {
-        const oldPath = path.join(__dirname, "..", "uploads", puja.image);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-      }
-      puja.image = req.file.filename;
+      puja.image = await uploadToCloudinary(req.file.buffer, "pujas");
     }
 
     const updated = await puja.save();
@@ -82,11 +81,6 @@ exports.deletePuja = async (req, res) => {
   try {
     const puja = await Puja.findById(req.params.id);
     if (!puja) return res.status(404).json({ message: "Puja not found" });
-
-    if (puja.image) {
-      const imgPath = path.join(__dirname, "..", "uploads", puja.image);
-      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
-    }
 
     await Puja.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted successfully" });
