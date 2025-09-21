@@ -1,27 +1,41 @@
 const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("cloudinary").v2;
+const path = require("path");
+const fs = require("fs");
 
-// Cloudinary config
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+// Ensure uploads folder exists
+const uploadDir = path.join(__dirname, "..", "uploads");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
-// Storage setup for Cloudinary
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "pujas", // Cloudinary folder name
-    allowed_formats: ["jpeg", "jpg", "png", "webp"],
+// Storage setup
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
-// Multer upload (single image, field name = image)
+// File filter (only images)
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|webp/;
+  const extname = allowedTypes.test(
+    path.extname(file.originalname).toLowerCase()
+  );
+  const mimetype = allowedTypes.test(file.mimetype);
+
+  if (extname && mimetype) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only .jpeg, .jpg, .png, .webp images are allowed!"));
+  }
+};
+
+// Single image upload for Puja (frontend also sends image)
 const uploadPuja = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
-});
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter,
+}).single("image");
 
-module.exports = uploadPuja.single("image");
+module.exports = uploadPuja;

@@ -1,13 +1,16 @@
 const Puja = require("../models/pujaModel");
+const path = require("path");
+const fs = require("fs");
 
 // Add Puja
 exports.addPuja = async (req, res) => {
   try {
     const { name, description } = req.body;
-    const image = req.file ? req.file.path : null; // Cloudinary gives URL in .path
+    const image = req.file ? req.file.filename : null;
 
     const puja = new Puja({ name, description, image });
     const saved = await puja.save();
+
     res.status(201).json(saved);
   } catch (err) {
     console.error(err);
@@ -15,22 +18,32 @@ exports.addPuja = async (req, res) => {
   }
 };
 
-// Get all
+// Get all Pujas
 exports.getAllPujas = async (req, res) => {
   try {
     const pujas = await Puja.find().sort({ createdAt: -1 }).lean();
-    // No need to prepend local path, Cloudinary gives direct URL
-    res.json(pujas);
+
+    const formatted = pujas.map((p) => ({
+      ...p,
+      image: p.image
+        ? `${req.protocol}://${req.get("host")}/uploads/${p.image}`
+        : null,
+    }));
+
+    res.json(formatted);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Get by ID
+// Get Puja by ID
 exports.getPujaById = async (req, res) => {
   try {
     const puja = await Puja.findById(req.params.id);
     if (!puja) return res.status(404).json({ message: "Puja not found" });
+
+    if (puja.image)
+      puja.image = `${req.protocol}://${req.get("host")}/uploads/${puja.image}`;
 
     res.json(puja);
   } catch (err) {
@@ -38,7 +51,7 @@ exports.getPujaById = async (req, res) => {
   }
 };
 
-// Update
+// Update Puja
 exports.updatePuja = async (req, res) => {
   try {
     const puja = await Puja.findById(req.params.id);
@@ -49,8 +62,12 @@ exports.updatePuja = async (req, res) => {
     if (description) puja.description = description;
 
     if (req.file) {
-      // Replace old image URL with new one
-      puja.image = req.file.path;
+      // Remove old image
+      if (puja.image) {
+        const oldPath = path.join(__dirname, "..", "uploads", puja.image);
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      }
+      puja.image = req.file.filename;
     }
 
     const updated = await puja.save();
@@ -60,15 +77,18 @@ exports.updatePuja = async (req, res) => {
   }
 };
 
-// Delete
+// Delete Puja
 exports.deletePuja = async (req, res) => {
   try {
     const puja = await Puja.findById(req.params.id);
     if (!puja) return res.status(404).json({ message: "Puja not found" });
 
-    // Optional: Cloudinary delete logic (if you want, need public_id stored separately)
-    await Puja.findByIdAndDelete(req.params.id);
+    if (puja.image) {
+      const imgPath = path.join(__dirname, "..", "uploads", puja.image);
+      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+    }
 
+    await Puja.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
