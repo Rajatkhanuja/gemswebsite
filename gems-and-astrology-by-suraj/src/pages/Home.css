@@ -13,6 +13,7 @@
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
+
 /* ====================
    Professional Card
    ==================== */
@@ -97,13 +98,14 @@
   justify-content: center;
   position: relative;
   z-index: 2;
+  margin-top: -50px;
 }
 
 .card-content h2 {
   font-size: 2.5rem;
   font-weight: 800;
   color: #2c3e50;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1px;
   line-height: 1.2;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
@@ -116,7 +118,7 @@
   font-size: 1.15rem;
   color: #5a6c7d;
   line-height: 1.7;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2px;
   text-align: justify;
   font-weight: 400;
 }
@@ -124,7 +126,7 @@
 .card-content ul {
   list-style: none;
   padding: 0;
-  margin-bottom: 3rem;
+  margin-bottom: 10px;
 }
 
 .card-content ul li {
@@ -247,7 +249,7 @@
    ============================== */
 @media (max-width: 1024px) {
   .cards-container {
-    flex-direction: column;
+    flex-direction: column !important;
     gap: 1.5rem;
     padding: 3rem 1.5rem;
   }
@@ -302,7 +304,7 @@
 
   .cta-button {
     align-self: center;
-    margin-top: 1rem;
+    margin-top: -1.5rem;
     padding: 1rem 2rem;
     font-size: 1rem;
   }

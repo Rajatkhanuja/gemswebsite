@@ -231,12 +231,22 @@
   }
 
   .footer-content {
-    gap: 2rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0; /* Remove big gap */
   }
 
+  /* Each section ke beech sirf 2% gap */
   .footer-section {
+    margin-bottom: 2%;
     text-align: center;
     max-width: 100%;
+  }
+
+  /* Last section ke niche gap remove */
+  .footer-section:last-child {
+    margin-bottom: 0;
   }
 
   .footer-section h3 {
@@ -282,11 +292,16 @@
   }
 
   .footer-content {
-    gap: 1.5rem;
+    gap: 0; /* ensure no extra spacing */
   }
 
   .footer-section {
+    margin-bottom: -8%; /* same compact spacing */
     text-align: center;
+  }
+
+  .footer-section:last-child {
+    margin-bottom: 0;
   }
 
   .footer-section h3 {
