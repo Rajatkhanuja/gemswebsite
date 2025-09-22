@@ -16,6 +16,8 @@ connectDB();
 app.use(
   cors({
     origin: [
+      "https://www.gemsandastrologybysuraj.com", // frontend production
+      "https://admin.gemsandastrologybysuraj.com", // admin production
       "http://localhost:3000",
       "http://localhost:3001",
       "https://gemswebsite.vercel.app",
