@@ -14,10 +14,11 @@ import ScrollToTop from "./components/ScrollToTop"; // Import ScrollToTop compon
 function App() {
   return (
     <Router>
+        <ScrollToTop />  {/* ✅ Place it here, just inside Router */}
       <Navbar />
       <div className="pt-16">
         <Routes>
-          <ScrollToTop /> {/* Add ScrollToTop component here */}
+          
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/shop" element={<Shop />} />
