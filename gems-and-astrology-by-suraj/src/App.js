@@ -9,6 +9,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import GemDetail from "./pages/GemDetail";
 import ServiceDetail from "./pages/ServiceDetail";
+import ScrollToTop from "./components/ScrollToTop"; // Import ScrollToTop component
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Navbar />
       <div className="pt-16">
         <Routes>
+          <ScrollToTop /> {/* Add ScrollToTop component here */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/shop" element={<Shop />} />
