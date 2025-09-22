@@ -9,10 +9,12 @@ import UpdateGem from "./components/UpdateGem";
 import Updateastrology from "./components/Updateastrology"; 
 import Viewastrology from "./components/Viewastrology"; // ✅ Import ViewAstrology
 import UpdateView from "./components/Updateview"; // ✅ Import UpdateView
+import ScrollToTop from "./components/ScrollToTop"; // Import ScrollToTop component
 
 function App() {
   return (
     <Router>
+       <ScrollToTop /> {/* Add ScrollToTop component here */}
       <Routes>
         {/* Root redirect */}
         <Route path="/" element={<Navigate to="/admin/login" />} />
