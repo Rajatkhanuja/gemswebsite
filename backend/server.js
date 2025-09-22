@@ -12,21 +12,42 @@ const app = express();
 // ✅ MongoDB connection
 connectDB();
 
-// ✅ Enable CORS (includes PATCH)
-app.use(
-  cors({
-    origin: [
-      "https://www.gemsandastrologybysuraj.com", // frontend production
-      "https://admin.gemsandastrologybysuraj.com", // admin production
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://gemswebsite.vercel.app",
-      "https://gemswebsite-re47.vercel.app"
-    ],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true,
-  })
-);
+// ✅ Dynamic CORS setup
+const allowedOrigins = [
+  "https://www.gemsandastrologybysuraj.com", // frontend production
+  "https://admin.gemsandastrologybysuraj.com", // admin production
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "https://gemswebsite.vercel.app",
+  "https://gemswebsite-re47.vercel.app"
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if(!origin) return callback(null, true); // Postman or same-origin requests
+    if(allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  credentials: true,
+}));
+
+// ✅ Handle preflight OPTIONS requests for all routes
+app.options("*", cors({
+  origin: function(origin, callback) {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  credentials: true,
+}));
 
 // ✅ JSON parsing
 app.use(express.json());
